@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: black;
+            width: 640px;
+            height: 640px;
+        }
+
+        #container div {
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            box-sizing:border-box;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="Clear()" id="clear">Clear</button>
+    <div id="container"></div>
+
+    <script>
+
+        gridGenerator(16)
+
+        var gridpart = document.getElementById("container").getElementsByTagName("div")
+
+        let container = document.getElementById("container");
+
+        container.addEventListener("mouseover", function( event ) {
+            event.target.style.backgroundColor = `rgb${colorGenerator()}`;
+            event.target.style.opacity = event.target.style.opacity - 0.1
+    }, false);
+
+        function colorGenerator() {
+            var random1 = Math.floor(Math.random() * 256)
+            var random2 = Math.floor(Math.random() * 256)
+            var random3 = Math.floor(Math.random() * 256)
+            var color = `(${random1}, ${random2}, ${random3})`
+            return color
+        }
+
+        function Clear(){
+            for (var i = 0; i < gridpart.length; i++) {
+            gridpart[i].style.backgroundColor="white";
+            }
+
+            newSquare()
+
+        }
+
+        function newSquare(){
+            var squareAmount = prompt("How many squares per side do you want?")
+
+            const removeElements = (elms) => elms.forEach(el => el.remove());
+            removeElements( document.querySelectorAll(".gridpart") );
+
+            gridGenerator(squareAmount)
+        }
+
+        function gridGenerator(amount) {
+            var squareDimension = 640 / amount
+            for (i = 0; i < amount; i++) {
+
+                var row = document.createElement("DIV");
+                row.classList.add("gridpart")
+                document.getElementById("container").appendChild(row);
+
+                row.style.width = `${squareDimension}px`
+                row.style.height = `${squareDimension}px`
+                row.style.opacity = 1
+
+                for (j = 0; j < amount; j++) {
+
+                    var column = document.createElement("DIV");
+                    column.classList.add("gridpart");
+                    document.getElementById("container").appendChild(column);
+
+                    column.style.width = `${squareDimension}px`
+                    column.style.height = `${squareDimension}px`
+                    column.style.opacity = 1
+                };
+        }
+        }
+    </script>
+</body>
+</html>
